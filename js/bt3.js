@@ -1,53 +1,83 @@
 class Mobile {
-    constructor() {
-        this.Trangthai = true
-        this.pin = 60
-        this.tindagui = []
-        this.tindaden = []
-        this.tindangsoanthao = []
-    }
-    off() {
-        if (this.pin < 1) {
-            this.Trangthai = false
-        }
-    }
-    onoff(a) {
-        this.Trangthai = a
-    }
-    tindaguiz(a, dt) {
-        if (this.Trangthai) {
-            this.tindagui.push(a)
-            dt.tindaden.push(a)
-            this.pin--
-        } else { console.log(`Máy chưa được bật`); }
-        return true
-    }
-    tindadenz(b) {
-        if (this.Trangthai) {
-            this.tindagui.push(b)
-            this.pin--
-        }
-        else { console.log(`Máy chưa được bật`); }
-    }
-    tindangsoanthaoz(c) {
-        if (this.Trangthai) {
-            this.tindagui.push(c)
-            this.pin--
-        } else { console.log(`Máy chưa được bật`) }
-    }
-    sacpin() {
-        if (this.pin >= 100) {
-            console.log(`Pin đã đầy`);
+    pin
+    tinNhanDangSoan = ""
+    hopThuDen = []
+    hopThuGui = []
+    status = true
+    constructor(pin) {
+        if (pin < 1 || pin > 100) {
+            this.pin = 80
         } else {
-            this.pin++
+            this.pin = pin
         }
-    }
-    xemtinnhanden() {
-        console.log(this.tindaden);
+
+        this.checkOnOff = () => {
+            if (!this.status) {
+                return
+            }
+            this.pin--;
+            return this.status;
+        }
+
+        this.setOnOff = (value) => {
+            if (!this.status) {
+                return
+            }
+            this.status = value
+            this.pin--;
+        }
+
+        this.sacPin = () => {
+            console.log("Dang sac pin");
+            this.pin++;
+        }
+
+        this.soanTinNhan = (value) => {
+            if (!this.status) {
+                return
+            }
+            this.tinNhanDangSoan = value
+            this.pin--;
+        }
+
+        this.nhanTinNhan = (value) => {
+            if (!this.status) {
+                return
+            }
+            this.hopThuDen.push(value)
+            this.pin--;
+        }
+
+        this.guiTinNhan = (phone) => {
+            if (!this.status) {
+                return
+            }
+            this.hopThuGui.push(this.tinNhanDangSoan)
+            phone.nhanTinNhan(this.tinNhanDangSoan)
+            this.tinNhanDangSoan = ""
+            this.pin--;
+        }
+
+        this.xemTinNhanTrongHopThuDen = () => {
+            if (!this.status) {
+                return
+            }
+            this.pin--;
+            return this.hopThuDen
+        }
+
+        this.xemTinNhanDaGui = () => {
+            if (!this.status) {
+                return
+            }
+            this.pin--;
+            return this.hopThuGui
+        }
     }
 }
-let iphone = new Mobile()
-let nokia = new Mobile()
 
-nokia.tindaguiz("xin chao", iphone)
-iphone.xemtinnhanden()
+let nokia = new Mobile(23)
+let iphone = new Mobile(45)
+nokia.soanTinNhan("onoi dung bat ky")
+nokia.guiTinNhan(iphone)
+console.log(iphone.xemTinNhanTrongHopThuDen());
