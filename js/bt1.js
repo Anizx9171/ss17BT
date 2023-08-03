@@ -1,8 +1,6 @@
 class Rectangle {
     weith
     height
-    area
-    perimeter
     constructor(weith, height) {
         this.weith = weith
         this.height = height
